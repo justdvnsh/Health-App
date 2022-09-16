@@ -1,8 +1,13 @@
 package divyansh.tech.healthappudemy
 
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
@@ -22,12 +27,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import divyansh.tech.healthapp.onboarding.OnboardingScreenNavGraph
+import divyansh.tech.healthappudemy.home.HOME_NAV_GRAPH
 import divyansh.tech.healthappudemy.home.HomeFeedScreen.HomeFeedScreen
+import divyansh.tech.healthappudemy.home.HomeNavGraph
+import divyansh.tech.healthappudemy.home.HomeSections
 import divyansh.tech.healthappudemy.home.ListScreen.ListScreen
 import divyansh.tech.healthappudemy.home.SwipeScreen.SwipeScreen
 import divyansh.tech.healthappudemy.ui.theme.HealthAppUdemyTheme
@@ -39,21 +49,27 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             val navHostController = rememberAnimatedNavController()
+            val bottomBarScreens = listOf(HomeSections.HOME, HomeSections.SEARCH, HomeSections.SURVEY)
+
+            val viewModel by viewModels<MainViewModel>()
 
             HealthAppUdemyTheme {
                 Scaffold(
                     bottomBar = {
                         BottomBar(
-                            screens = listOf(BottomBarScreens.HOME, BottomBarScreens.LIST, BottomBarScreens.SWIPE),
+                            screens = bottomBarScreens,
                             navHostController = navHostController )
                     }
                 ) {
                     AnimatedNavHost(
                         navController = navHostController,
-                        startDestination = BottomBarScreens.HOME.route,
+                        startDestination = HOME_NAV_GRAPH,
                         modifier = Modifier
                             .wrapContentSize()
-                            .padding(bottom = 56.dp),
+                            .padding(bottom = when (viewModel.getBottomBarVisible()) {
+                                true -> 90.dp
+                                false -> 0.dp
+                            }),
                         enterTransition = {
                             slideIntoContainer(AnimatedContentScope.SlideDirection.Left, animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
                         },
@@ -67,15 +83,14 @@ class MainActivity : ComponentActivity() {
                             slideOutOfContainer(AnimatedContentScope.SlideDirection.Right, animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
                         }
                     ) {
-                        composable(BottomBarScreens.HOME.route) {
-                            HomeFeedScreen()
-                        }
-                        composable(BottomBarScreens.LIST.route) {
-                            ListScreen(navController = navHostController)
-                        }
-                        composable(BottomBarScreens.SWIPE.route) {
-                            SwipeScreen()
-                        }
+                        OnboardingScreenNavGraph(
+                            navHostController = navHostController,
+                            viewModel = viewModel
+                        )
+                        HomeNavGraph(
+                            navController = navHostController,
+                            viewModel = viewModel
+                        )
                     }
                 }
             }
@@ -95,7 +110,7 @@ enum class BottomBarScreens(
 
 @Composable
 fun BottomBar(
-    screens: List<BottomBarScreens>,
+    screens: List<HomeSections>,
     navHostController: NavHostController
 ) {
     BottomNavigation(
