@@ -4,6 +4,7 @@ import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -23,10 +24,7 @@ import androidx.compose.ui.unit.sp
 import divyansh.tech.healthappudemy.R
 import divyansh.tech.healthappudemy.home.ListScreen.model.CarbType
 import divyansh.tech.healthappudemy.home.ListScreen.model.ListItem
-import divyansh.tech.healthappudemy.ui.theme.dogerBlue
-import divyansh.tech.healthappudemy.ui.theme.fireRed
-import divyansh.tech.healthappudemy.ui.theme.lightPurple
-import divyansh.tech.healthappudemy.ui.theme.pink
+import divyansh.tech.healthappudemy.ui.theme.*
 
 @Composable
 fun ListScreenItem(
@@ -78,15 +76,15 @@ fun ListScreenItem(
                     modifier = Modifier
                         .height(90.dp)
                         .width(90.dp)
-                        .clip(RoundedCornerShape(12.dp))
+                        .clip(CutCornerRoundedShape(60f))
                 )
                 Image(
                     painter = emojiToDisplay,
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .height(24.dp)
-                        .width(24.dp)
+                        .height(14.dp)
+                        .width(14.dp)
                         .clip(CircleShape)
                         .align(Alignment.BottomEnd)
                 )
