@@ -24,6 +24,7 @@ import androidx.navigation.NavHostController
 import divyansh.tech.healthapp.home.Feed.MetricsCardView
 import divyansh.tech.healthappudemy.R
 import divyansh.tech.healthappudemy.home.HomeSections
+import divyansh.tech.healthappudemy.ui.theme.PolyShape
 import divyansh.tech.healthappudemy.ui.theme.dogerBlue
 import divyansh.tech.healthappudemy.ui.theme.lightPurple
 import divyansh.tech.healthappudemy.ui.theme.slaty
@@ -158,6 +159,7 @@ fun HomeFeedScreen(
                             .width(55.dp)
                             .background(
                                 color = MaterialTheme.colors.primary,
+                                shape = PolyShape(6, 90f)
                             ),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.CenterHorizontally
