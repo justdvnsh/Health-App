@@ -28,7 +28,8 @@ import divyansh.tech.healthappudemy.ui.theme.*
 
 @Composable
 fun ListScreenItem(
-    listItem: ListItem
+    listItem: ListItem,
+    modifier: Modifier
 ) {
 
     val displayText = when(listItem.carbType) {
@@ -54,7 +55,7 @@ fun ListScreenItem(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {

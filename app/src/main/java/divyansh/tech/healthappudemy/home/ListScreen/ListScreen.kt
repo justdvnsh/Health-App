@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import divyansh.tech.healthappudemy.home.ListScreen.components.ListScreenItem
 import divyansh.tech.healthappudemy.home.ListScreen.model.ListItem
+import divyansh.tech.healthappudemy.utils.swipeToDismiss
 
 private val viewModel = ListViewModel()
 
@@ -48,7 +49,18 @@ fun ListScreen(
                 ) {
                     LazyColumn(state = lazyListState) {
                         items(viewModel.items, key = {item: ListItem ->  item.id}) {item ->
-                            ListScreenItem(listItem = item)
+                            BoxWithConstraints() {
+                                ListScreenItem(
+                                    listItem = item,
+                                    modifier = Modifier.swipeToDismiss(
+                                        item = item,
+                                        onDismissed = {
+                                            val index = viewModel.items.indexOf(it)
+                                            viewModel.items.removeAt(index)
+                                        }
+                                    )
+                                )
+                            }
                         }
                     }
                 }
