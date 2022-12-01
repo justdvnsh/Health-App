@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import divyansh.tech.healthappudemy.R
+import divyansh.tech.healthappudemy.home.ListScreen.SlideState
 import divyansh.tech.healthappudemy.home.ListScreen.model.CarbType
 import divyansh.tech.healthappudemy.home.ListScreen.model.ListItem
 import divyansh.tech.healthappudemy.ui.theme.*
@@ -29,7 +30,7 @@ import divyansh.tech.healthappudemy.ui.theme.*
 @Composable
 fun ListScreenItem(
     listItem: ListItem,
-    modifier: Modifier
+    modifier: Modifier,
 ) {
 
     val displayText = when(listItem.carbType) {
